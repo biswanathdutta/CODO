@@ -12,3 +12,12 @@ So, the produced data can be queried and retrieved semantically, and can also be
 This network data may help in analysing the behavior of the disease, possible route of disease spread, various factors of disease transmission, etc. 
 
 (3) The data published following the proposed Knowledge Graph (KG) will also help the policymakers, for example, in understanding the state of the infrastructure, failure study, in resource allocation for a similar kind of pandemic in the future. 
+
+## Contact 
+**Biswanath Dutta (Indian Statistical Institute)** 
+<dutta2005@gmail.com>
+<bisu@drtc.isibang.ac.in>  
+(@biswanathdutta) 
+
+**Michael DeBellis (Semantic Web Consultant)** 
+<mdebellissf@gmail.com> 
