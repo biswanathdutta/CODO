@@ -15,11 +15,12 @@ This network data may help in analysing the behavior of the disease, possible ro
 
 ## Contacts    
 **Biswanath Dutta (Indian Statistical Institute)** 
- *<dutta2005@gmail.com>*
+
+ <dutta2005@gmail.com>
  <bisu@drtc.isibang.ac.in>  
 (@biswanathdutta) 
 
 **Michael DeBellis (Semantic Web Consultant)** 
-<mdebellissf@gmail.com> 
+ <mdebellissf@gmail.com> 
 
 
