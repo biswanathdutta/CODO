@@ -20,7 +20,8 @@ This network data may help in analysing the behavior of the disease, possible ro
  <bisu@drtc.isibang.ac.in>  
 (@biswanathdutta) 
 
-**Michael DeBellis (Semantic Web Consultant)** 
+**Michael DeBellis** 
+
  <mdebellissf@gmail.com> 
 
 
