@@ -16,9 +16,10 @@ This network data may help in analysing the behavior of the disease, possible ro
 ## Contacts    
 **Biswanath Dutta (Indian Statistical Institute)** 
 
- <dutta2005@gmail.com>
- <bisu@drtc.isibang.ac.in>  
 (@biswanathdutta) 
+ <dutta2005@gmail.com>, 
+ <bisu@drtc.isibang.ac.in>  
+
 
 **Michael DeBellis** 
  <mdebellissf@gmail.com> 
