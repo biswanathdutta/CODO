@@ -21,7 +21,6 @@ This network data may help in analysing the behavior of the disease, possible ro
 (@biswanathdutta) 
 
 **Michael DeBellis** 
-
  <mdebellissf@gmail.com> 
 
 
