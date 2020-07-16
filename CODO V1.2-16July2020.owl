@@ -1,0 +1,2221 @@
+@prefix : <http://www.isibang.ac.in/ns/codo#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix mod: <http://www.isibang.ac.in/ns/mod#> .
+@prefix omv: <http://omv.ontoware.org/2005/05/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix schema: <https://schema.org/> .
+@prefix snomed: <http://snomed.info/id/> .
+@prefix pending: <https://pending.schema.org/> .
+@base <http://www.isibang.ac.in/ns/codo> .
+
+<http://www.isibang.ac.in/ns/codo> rdf:type owl:Ontology ;
+                                    owl:versionIRI <http://www.isibang.ac.in/ns/codo/1.2> ;
+                                    omv:designedForOntologyTask """This COVID-19 ontology is a data model for publishing COVID-19 data on the Web as a Graph. 
+
+The primary focuses of the model are: 
+(1) COVID-19 cases: the data for COVID-19 cases (e.g., active, recovered, deceased, migrated) ondaily basis across the geo-location (district, state and country), available resources and requirements; 
+(2) COVID-19 patient data: nationality, symptom, suspected level of covid -19 cases, covid-19 treatment facility, covid-19 clinical facility, patient's travel history, inter-personal relationships between patients, suspected transmission reason, tracking of patient test results, etc."""@en ;
+                                    dct:created "2020-04-27T10:00:00"^^xsd:dateTime ;
+                                    dct:creator "Biswanath Dutta (Indian Statistical Institute, India)"@en ,
+                                                "Michael DeBellis (Semantic Web Consultant, USA)"@en ;
+                                    dct:license "https://creativecommons.org/licenses/by/4.0/"^^xsd:anyURI ;
+                                    dct:publisher "Indian Statistical Institute"@en ;
+                                    dct:title "An Ontology for Representation and Publication of COVID-19 Cases and Patient Information"@en ;
+                                    vann:changes """Added class: 
+UrgentlyNeedsCovidTest 
+City, Status 
+
+Added property: 
+Object property: 
+contractedVirusFrom, passesVriusTo  
+hasCloseRelationship, hasTravelCompanion 
+city, country, district, state 
+status 
+
+Data property: 
+hasCausedAnySecondaryInfections 
+hasID(caseID) 
+
+Removed: 
+Data property: patientStatus, patientID"""^^xsd:string ;
+                                    mod:browsingUI "http://www.isibang.ac.in/ns/codo"^^xsd:anyURI ;
+                                    mod:competencyQuestion """Some example competency questions: 
+How many people recovered from COVId-19 in place p until date t? 
+How many people died in country c? 
+Give me the travel history of patient p? 
+Give me the COVID-19 patients and their relationship, if any. 
+Give me the COVID-19 patients who are in family relationships. 
+Give me the primary reasons for the maximum number of COVID-19 patients. 
+Give me the most prevalent symtopms of Severe COVID-19."""^^xsd:string ;
+                                    rdfs:comment "" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://omv.ontoware.org/2005/05/ontology#designedForOntologyTask
+omv:designedForOntologyTask rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/date
+dc:date rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/abstract
+dct:abstract rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/contributor
+dct:contributor rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/created
+dct:created rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/creator
+dct:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/license
+dct:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/publisher
+dct:publisher rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+dct:title rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/changes
+vann:changes rdf:type owl:AnnotationProperty .
+
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+swrla:isRuleEnabled rdf:type owl:AnnotationProperty .
+
+
+###  http://www.isibang.ac.in/ns/mod#browsingUI
+mod:browsingUI rdf:type owl:AnnotationProperty .
+
+
+###  http://www.isibang.ac.in/ns/mod#competencyQuestion
+mod:competencyQuestion rdf:type owl:AnnotationProperty .
+
+
+###  http://www.isibang.ac.in/ns/mod#rootClasses
+mod:rootClasses rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#seeAlso
+rdfs:seeAlso rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.isibang.ac.in/ns/codo#admittedIn
+:admittedIn rdf:type owl:ObjectProperty ;
+            rdfs:domain schema:Patient ;
+            rdfs:range :COVID-19DedicatedFacility ;
+            rdfs:comment "The patient admitted to the covid-19 dedicated facilities, like home, hotel, hospital, etc."@en ;
+            rdfs:label "admitted in"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#city
+:city rdf:type owl:ObjectProperty ;
+      rdfs:subPropertyOf :location ;
+      rdfs:domain foaf:Agent ;
+      rdfs:range :City .
+
+
+###  http://www.isibang.ac.in/ns/codo#clinicalFacility
+:clinicalFacility rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Disease ;
+                  rdfs:range <http://schema.org/MedicalClinic> ;
+                  rdfs:comment "The medical clinic where testing/ diagnosis for disease is available."@en ;
+                  rdfs:label "clinical facility"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#co-worker
+:co-worker rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasRelationship ;
+           rdf:type owl:SymmetricProperty ;
+           rdfs:domain foaf:Person ;
+           rdfs:range foaf:Person ;
+           rdfs:comment "Two persons in co-worker relation."@en ;
+           rdfs:label "co-worker"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#contractedVirusFrom
+:contractedVirusFrom rdf:type owl:ObjectProperty ;
+                     owl:inverseOf :passedVirusTo ;
+                     rdfs:domain foaf:Agent ;
+                     rdfs:range foaf:Agent ;
+                     rdfs:comment "In case the patient contracted the virus from is known, this property mentions the case number of the \"parent\" [source: https://www.isibang.ac.in/~athreya/incovid19/data.html]"@en ;
+                     rdfs:label "contracted virus from"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#country
+:country rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :location ;
+         rdfs:domain foaf:Agent ;
+         rdfs:range schema:Country .
+
+
+###  http://www.isibang.ac.in/ns/codo#countryWiseStatistics
+:countryWiseStatistics rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf :hasStatistics ;
+                       rdfs:domain schema:Country ;
+                       rdfs:range :CountryWiseStatistics ;
+                       rdfs:comment "A property to connect to the country wise metrics related to the casualities of the disease."@en ;
+                       rdfs:label "country wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#covid-19ClinicalFacility
+:covid-19ClinicalFacility rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf :clinicalFacility ;
+                          rdfs:domain :DiseaseCausedByCoronaviridae ;
+                          rdfs:range <http://schema.org/CovidTestingFacility> ;
+                          rdfs:comment "The medical clinic where testing/ diagnosis for the COVID-19 Coronavirus disease is available."@en ;
+                          rdfs:label "covid-19 clinical facility"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#district
+:district rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :location ;
+          rdfs:domain foaf:Agent ;
+          rdfs:range :District .
+
+
+###  http://www.isibang.ac.in/ns/codo#districtWiseStatistics
+:districtWiseStatistics rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf :hasStatistics ;
+                        rdfs:domain :District ;
+                        rdfs:range :DistrictWiseStatistics ;
+                        rdfs:comment "A property to connect to the district wise metrics related to the casualities of the disease."@en ;
+                        rdfs:label "district wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#domesticHelp
+:domesticHelp rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :hasCloseRelationship ;
+              rdfs:domain foaf:Person ;
+              rdfs:range foaf:Person ;
+              rdfs:comment "A person is a domestic help to anothe person."@en ;
+              rdfs:label "domestic help"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasAunt
+:hasAunt rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :kinswomen ;
+         rdfs:comment "The sister of your father or mother; the wife of your uncle."@en ;
+         rdfs:label "hasAunt"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasBrother
+:hasBrother rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :hasSibling ,
+                               :kinsman ;
+            rdfs:domain foaf:Person ;
+            rdfs:comment "A male with the same parents as someone else."@en ;
+            rdfs:label "hasBrother"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasChild
+:hasChild rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasRelationship ;
+          owl:inverseOf :isChildOf .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasCloseRelationship
+:hasCloseRelationship rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf :hasRelationship .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasDaughter
+:hasDaughter rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf :hasChild ;
+             owl:inverseOf :isDaughterOf ;
+             rdfs:range :Woman .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasDiagnosis
+:hasDiagnosis rdf:type owl:ObjectProperty ;
+              owl:inverseOf :isDiagnosisFor ;
+              rdfs:domain schema:Patient ;
+              rdfs:range :Diagnosis ;
+              rdfs:comment "The diagnosis details of a patient."@en ;
+              rdfs:label "has diagnosis"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasHusband
+:hasHusband rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :hasSpouse ;
+            owl:inverseOf :hasWife ;
+            rdfs:domain :Woman ;
+            rdfs:range :Man ;
+            rdfs:label "hasHusband"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasNephew
+:hasNephew rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :kinsman ;
+           rdfs:comment "A son of your brother or sister."@en ;
+           rdfs:label "hasNephew"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasNiece
+:hasNiece rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :kinswomen ;
+          rdfs:comment "A daughter of your brother or sister."@en ;
+          rdfs:label "hasNiece"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasPart
+:hasPart rdf:type owl:ObjectProperty ;
+         owl:inverseOf :isPartOf ;
+         rdfs:comment "Indicates a place has a place part."@en ;
+         rdfs:label "has part"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasRelationship
+:hasRelationship rdf:type owl:ObjectProperty ;
+                 rdfs:domain foaf:Person ;
+                 rdfs:range foaf:Person ;
+                 rdfs:comment "A generic property to store the relationships between persons."@en ;
+                 rdfs:label "has relationships"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasSibling
+:hasSibling rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :hasRelationship ;
+            rdf:type owl:SymmetricProperty .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasSister
+:hasSister rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasSibling ,
+                              :kinswomen ;
+           rdfs:comment "A female person who has the same parents as another person."@en ;
+           rdfs:label "hasSister"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasSon
+:hasSon rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf :hasChild ;
+        owl:inverseOf :isSonOf ;
+        rdfs:range :Man .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasSpouse
+:hasSpouse rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasCloseRelationship ;
+           rdf:type owl:SymmetricProperty ;
+           rdfs:comment "Two persons in married relationship."@en ;
+           rdfs:label "spouse"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasStatistics
+:hasStatistics rdf:type owl:ObjectProperty ;
+               owl:inverseOf :isCovid-19StatisticsOf ;
+               rdfs:domain schema:Place ;
+               rdfs:range :Statistics ;
+               rdfs:comment "A generic property to connect to the metrics related to the casualities of the disease."@en ;
+               rdfs:label "has statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasSymptom
+:hasSymptom rdf:type owl:ObjectProperty ;
+            rdfs:domain schema:Patient ;
+            rdfs:range <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+            rdfs:comment "Any sensation or change in bodily function that is experienced by a patient and is associated with a particular disease."@en ;
+            rdfs:label "has symptom"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasTestResult
+:hasTestResult rdf:type owl:ObjectProperty ;
+               owl:inverseOf :isTestResultFor ;
+               rdfs:domain schema:Patient ;
+               rdfs:range :TestResult ;
+               rdfs:comment "A patient has clinical test result."@en ;
+               rdfs:label "has test result"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasTravelCompanion
+:hasTravelCompanion rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :hasCloseRelationship ;
+                    rdf:type owl:SymmetricProperty .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasUncle
+:hasUncle rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :kinsman ;
+          rdfs:comment "The brother of your father or mother; the husband of your aunt."@en ;
+          rdfs:label "hasUncle"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasWife
+:hasWife rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :hasSpouse ;
+         rdfs:domain :Man ;
+         rdfs:range :Woman ;
+         rdfs:label "hasWife"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#isChildOf
+:isChildOf rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasRelationship .
+
+
+###  http://www.isibang.ac.in/ns/codo#isCovid-19StatisticsOf
+:isCovid-19StatisticsOf rdf:type owl:ObjectProperty ;
+                        rdfs:label "is covid-19 statistics of"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#isDaughterOf
+:isDaughterOf rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf :isChildOf .
+
+
+###  http://www.isibang.ac.in/ns/codo#isDiagnosisFor
+:isDiagnosisFor rdf:type owl:ObjectProperty ;
+                rdfs:label "is diagnosis of"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#isPartOf
+:isPartOf rdf:type owl:ObjectProperty ,
+                   owl:TransitiveProperty ;
+          rdfs:domain schema:Place ;
+          rdfs:range schema:Place ;
+          rdfs:comment "A place is part of another place."@en ;
+          rdfs:label "is part of"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#isSonOf
+:isSonOf rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :isChildOf .
+
+
+###  http://www.isibang.ac.in/ns/codo#isTestResultFor
+:isTestResultFor rdf:type owl:ObjectProperty ;
+                 rdfs:label "is test result for"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#kinsman
+:kinsman rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :hasRelationship ;
+         rdfs:range :Man ;
+         rdfs:comment "A male relative."@en ;
+         rdfs:label "kinsman"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#kinswomen
+:kinswomen rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :hasRelationship ;
+           rdfs:range :Woman ;
+           rdfs:comment "A female relative."@en ;
+           rdfs:label "kinswomen"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#laboratoryTestFinding
+:laboratoryTestFinding rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf :hasTestResult ;
+                       rdfs:range :LaboratiryTestFinding ;
+                       rdfs:comment "Patient's covid-19 clinical test result."@en ;
+                       rdfs:label "laboratory test finding"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#location
+:location rdf:type owl:ObjectProperty ;
+          rdfs:domain [ rdf:type owl:Class ;
+                        owl:unionOf ( :Disease
+                                      foaf:Organization
+                                      foaf:Person
+                                    )
+                      ] ;
+          rdfs:range schema:Place ;
+          rdfs:comment "The location of for example where a person is situated, an organization (covid-19 dedicated facilities, medical clinics) is located, or the geographic coverage of a disease."@en ;
+          rdfs:label "location"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#mostRecentTestResult
+:mostRecentTestResult rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf :hasTestResult ;
+                      rdfs:range :VitalSigns ;
+                      rdfs:comment "The most recent covid-19 clinical test result."@en ;
+                      rdfs:label "most recent test result"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#nextTestResult
+:nextTestResult rdf:type owl:ObjectProperty ;
+                owl:inverseOf :previousTestResult ;
+                rdfs:comment "The next clinical test result of a patient."@en ;
+                rdfs:label "next test result"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#passedVirusTo
+:passedVirusTo rdf:type owl:ObjectProperty .
+
+
+###  http://www.isibang.ac.in/ns/codo#previousTestResult
+:previousTestResult rdf:type owl:ObjectProperty ;
+                    rdfs:domain :VitalSigns ;
+                    rdfs:range :VitalSigns ;
+                    rdfs:comment "The previous clinical test result of a patient."@en ;
+                    rdfs:label "previous test result"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#roommate
+:roommate rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasCloseRelationship ;
+          rdf:type owl:SymmetricProperty ;
+          rdfs:comment "An associate who shares a room with you."@en ;
+          rdfs:label "roommate"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#securityGuard
+:securityGuard rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :hasRelationship ;
+               rdfs:comment "A security guard of a person."@en ;
+               rdfs:label "security guard"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#state
+:state rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf :location ;
+       rdfs:domain foaf:Agent ;
+       rdfs:range schema:State .
+
+
+###  http://www.isibang.ac.in/ns/codo#stateWiseStatistics
+:stateWiseStatistics rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf :hasStatistics ;
+                     rdfs:domain schema:State ;
+                     rdfs:range :StateWiseStatistics ;
+                     rdfs:comment "A property to connect to the state (province) wise metrics related to the casualities of the disease."@en ;
+                     rdfs:label "state wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#status
+:status rdf:type owl:ObjectProperty ;
+        rdfs:domain schema:Patient ;
+        rdfs:range :Status .
+
+
+###  http://www.isibang.ac.in/ns/codo#suspectedHost
+:suspectedHost rdf:type owl:ObjectProperty ;
+               rdfs:domain :ExposureToCOVID-19 ;
+               rdfs:range foaf:Agent .
+
+
+###  http://www.isibang.ac.in/ns/codo#suspectedReasonOfCatchingCovid-19
+:suspectedReasonOfCatchingCovid-19 rdf:type owl:ObjectProperty ;
+                                   rdfs:domain schema:Patient ;
+                                   rdfs:range :ExposureToCOVID-19 ;
+                                   rdfs:comment "The suspected reasons of catching covid-19 disease, for example, travel, attending a marriage anniversary, while treating a patient, infected famility member."@en ;
+                                   rdfs:label "suspected reasons of catching covid-19"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#testedInClinic
+:testedInClinic rdf:type owl:ObjectProperty ;
+                rdfs:domain :TestResult ;
+                rdfs:range <http://schema.org/MedicalClinic> .
+
+
+###  http://www.isibang.ac.in/ns/codo#travelHistory
+:travelHistory rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:domain schema:Patient ;
+               rdfs:range schema:Place ;
+               rdfs:comment "A generic property to store the travel history of a patient."@en ;
+               rdfs:label "travel history"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#travelledFrom
+:travelledFrom rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf :travelHistory ;
+               rdfs:domain schema:Patient ;
+               rdfs:range schema:Place ;
+               rdfs:comment "A suspected covid-19 patient travelled from a place, e.g., country/ state/ district."@en ;
+               rdfs:label "travelled from"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#travelledTo
+:travelledTo rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf :travelHistory ;
+             rdfs:domain schema:Patient ;
+             rdfs:range schema:Place ;
+             rdfs:comment "A suspected covid-19 patient travelled to a place, e.g., country/ state/ district."@en ;
+             rdfs:label "travelled to"@en .
+
+
+###  https://pending.schema.org/gender
+pending:gender rdf:type owl:ObjectProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:domain foaf:Person ;
+               rdfs:range schema:GenderType ;
+               rdfs:comment "Gender of a person."@en ;
+               rdfs:label "has gender"@en .
+
+
+###  https://schema.org/nationality
+schema:nationality rdf:type owl:ObjectProperty ;
+                   rdfs:domain foaf:Person ;
+                   rdfs:range schema:Country ;
+                   rdfs:comment "Nationality of the person."@en ;
+                   rdfs:label "nationality"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.isibang.ac.in/ns/codo#BP-diastolic
+:BP-diastolic rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain :VitalSigns ;
+              rdfs:range xsd:integer ;
+              rdfs:label "Blood Pressure (Distolic)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#BP-systolic
+:BP-systolic rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :VitalSigns ;
+             rdfs:range xsd:integer ;
+             rdfs:label "Blood Pressure (Systolic)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#SpO2
+:SpO2 rdf:type owl:DatatypeProperty ,
+               owl:FunctionalProperty ;
+      rdfs:domain :VitalSigns ;
+      rdfs:range xsd:integer ;
+      rdfs:comment "The peripheral capillary oxygen saturation, an estimate (in %) of the amount of oxygen in the blood."@en ;
+      rdfs:label "peripheral capillary oxygen saturation(SpO2)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#acronym
+:acronym rdf:type owl:DatatypeProperty ;
+         rdfs:range xsd:string ;
+         rdfs:comment "An acronym."@en ;
+         rdfs:label "acronym"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#active
+:active rdf:type owl:DatatypeProperty ;
+        rdfs:subPropertyOf :cases ;
+        rdfs:domain :Statistics ;
+        rdfs:range xsd:integer ;
+        rdfs:comment "Number of active covid cases."@en ;
+        rdfs:label "active"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#admittedOn
+:admittedOn rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf :date ;
+            rdfs:domain schema:Patient ;
+            rdfs:comment "A patient admitted on a particular day and time."@en ;
+            rdfs:label "admitted on"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#age
+:age rdf:type owl:DatatypeProperty ,
+              owl:FunctionalProperty ;
+     rdfs:domain foaf:Person ;
+     rdfs:range xsd:decimal ;
+     rdfs:comment "An age of a person."@en ;
+     rdfs:label "age"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#area
+:area rdf:type owl:DatatypeProperty ,
+               owl:FunctionalProperty ;
+      rdfs:domain schema:Place ;
+      rdfs:range xsd:decimal ;
+      rdfs:comment "Tthe extent of a 2-dimensional surface enclosed within a boundary (in sq. km.)."@en ;
+      rdfs:label "area"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#bedShortage
+:bedShortage rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :resource ;
+             rdfs:domain :Statistics ;
+             rdfs:range xsd:integer ;
+             rdfs:comment "no. of bed shortage."@en ;
+             rdfs:label "no. of bed shortage"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#bedsNeeded
+:bedsNeeded rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf :resource ;
+            rdfs:domain :Statistics ;
+            rdfs:range xsd:integer ;
+            rdfs:comment "no. of beds needed."@en ;
+            rdfs:label "no. of beds needed"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#cases
+:cases rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf :metrics ;
+       rdfs:domain :Statistics ;
+       rdfs:range xsd:integer ;
+       rdfs:comment "Number of covid cases."@en ;
+       rdfs:label "cases"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#countryCode
+:countryCode rdf:type owl:DatatypeProperty ;
+             rdfs:domain schema:Country ;
+             rdfs:range xsd:string ;
+             rdfs:comment "The country code. Example, \"IND\" for India."@en ;
+             rdfs:label "country code"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#covid-19caseOn
+:covid-19caseOn rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf :date ;
+                rdfs:domain :Statistics ;
+                rdfs:range xsd:dateTime ;
+                rdfs:comment "covid-19 cases on a day"@en ;
+                rdfs:label "covid-19 case on"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#dailyIncreasedCases
+:dailyIncreasedCases rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf :cases ;
+                     rdfs:domain :Statistics ;
+                     rdfs:range xsd:integer ;
+                     rdfs:comment "Total no,. of active cases in Date 2 - total no. of active cases in Date 1"@en ;
+                     rdfs:label "daily increased cases"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#date
+:date rdf:type owl:DatatypeProperty ;
+      rdfs:range xsd:dateTime ;
+      rdfs:comment "A particular day specified as the time something happens."@en ;
+      rdfs:label "date"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#deceased
+:deceased rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :cases ;
+          rdfs:domain :Statistics ;
+          rdfs:range xsd:integer ;
+          rdfs:comment "number of deceased covid-19 patients."@en ;
+          rdfs:label "deceased"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#diagnosedOn
+:diagnosedOn rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :date ;
+             rdfs:domain :Diagnosis ;
+             rdfs:range xsd:dateTime ;
+             rdfs:comment "The diagnosis took place on a day."@en ;
+             rdfs:label "diagnosed on"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hadCovidTest
+:hadCovidTest rdf:type owl:DatatypeProperty ,
+                       owl:FunctionalProperty ;
+              rdfs:domain foaf:Person ;
+              rdfs:range xsd:boolean .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasCausedAnySecondaryInfections
+:hasCausedAnySecondaryInfections rdf:type owl:DatatypeProperty ;
+                                 rdfs:domain schema:Patient ;
+                                 rdfs:range xsd:boolean ;
+                                 rdfs:comment "This indiicates the the secondary infections caused, if any. The values are either \"yes\", \"no\" and indicate if the patient has caused any [known] secondary infections [source: https://www.isibang.ac.in/~athreya/incovid19/data.html]."@en ;
+                                 rdfs:label "has caused any secondary infections"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasID
+:hasID rdf:type owl:DatatypeProperty ;
+       rdfs:range xsd:string ;
+       rdfs:label "case id"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#heartRate
+:heartRate rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :VitalSigns ;
+           rdfs:range xsd:integer ;
+           rdfs:comment "The rate at which the heart beats; usually measured to obtain a quick evaluation of a person's health."@en ;
+           rdfs:label "Heart rate"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#height
+:height rdf:type owl:DatatypeProperty ,
+                 owl:FunctionalProperty ;
+        rdfs:domain foaf:Person ;
+        rdfs:range xsd:decimal ;
+        rdfs:label "height"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#icuBedShortage
+:icuBedShortage rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf :resource ;
+                rdfs:domain :Statistics ;
+                rdfs:range xsd:integer ;
+                rdfs:comment "no. of icu bed shortage."@en ;
+                rdfs:label "no. of icu bed shortage"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#icuBedsNeeded
+:icuBedsNeeded rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf :resource ;
+               rdfs:domain :Statistics ;
+               rdfs:range xsd:integer ;
+               rdfs:comment "no. of invasive ventilators needed."@en ;
+               rdfs:label "no. of icu beds needed"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#invasiveVentilatorsNeeded
+:invasiveVentilatorsNeeded rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf :resource ;
+                           rdfs:domain :Statistics ;
+                           rdfs:range xsd:integer ;
+                           rdfs:comment "no. of invasive ventilators needed."@en ;
+                           rdfs:label "no. of invasive ventilators needed"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#metrics
+:metrics rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Statistics ;
+         rdfs:comment "A generic property to store any metrics related to the covid-19 disease casualties and resources."@en ;
+         rdfs:label "metrics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#noOfPeopleMigrated
+:noOfPeopleMigrated rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf :cases ;
+                    rdfs:domain :Statistics ;
+                    rdfs:range xsd:integer ;
+                    rdfs:comment "Number of people migrated after recovery from the covid."@en ,
+                                 "number of people migrated"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#populationDensity
+:populationDensity rdf:type owl:DatatypeProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain schema:Place ;
+                   rdfs:range xsd:decimal ;
+                   rdfs:comment "For humans, population density is the number of people per unit of area, usually quoted per square kilometre or square mile, and which may include or exclude for example areas of water or glaciers."@en ;
+                   rdfs:label "population density"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#recovered
+:recovered rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :cases ;
+           rdfs:domain :Statistics ;
+           rdfs:range xsd:integer ;
+           rdfs:comment "Number of people recovered from covid."@en ;
+           rdfs:label "recovered"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#releasedOn
+:releasedOn rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf :date ;
+            rdfs:domain schema:Patient ;
+            rdfs:range xsd:dateTime ;
+            rdfs:comment "The patient released on a day from a covid dedicated facility."@en ;
+            rdfs:label "released on"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#resource
+:resource rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :metrics ;
+          rdfs:domain :Statistics ;
+          rdfs:comment "Available/ required resource for covid treatment."@en ;
+          rdfs:label "resource"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#respiratoryRate
+:respiratoryRate rdf:type owl:DatatypeProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain :VitalSigns ;
+                 rdfs:range xsd:integer ;
+                 rdfs:comment "Is the number of breaths a person take per minute."@en ;
+                 rdfs:label "repiratory rate"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#source
+:source rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Statistics ;
+        rdfs:range [ rdf:type rdfs:Datatype ;
+                     owl:unionOf ( xsd:anyURI
+                                   xsd:string
+                                 )
+                   ] ;
+        rdfs:comment "The data source based on which the statistics produced."@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#stateCode
+:stateCode rdf:type owl:DatatypeProperty ;
+           rdfs:domain schema:State ;
+           rdfs:range xsd:string ;
+           rdfs:comment "State (province) code. Example, \"KL\" of Kerala."@en ;
+           rdfs:label "state code"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#temperature
+:temperature rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :VitalSigns ;
+             rdfs:range xsd:decimal ;
+             rdfs:comment "The body temperature."@en ;
+             rdfs:label "temperature"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#testResultOn
+:testResultOn rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf :date ;
+              rdfs:domain :TestResult ;
+              rdfs:range xsd:dateTime ;
+              rdfs:comment "The test result date."@en ;
+              rdfs:label "test result on"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#weight
+:weight rdf:type owl:DatatypeProperty ,
+                 owl:FunctionalProperty ;
+        rdfs:domain foaf:Person ;
+        rdfs:range xsd:decimal ;
+        rdfs:comment "The weight."@en ;
+        rdfs:label "weight"@en .
+
+
+###  http://xmlns.com/foaf/0.1/name
+foaf:name rdf:type owl:DatatypeProperty ;
+          rdfs:range xsd:string ;
+          rdfs:comment "A name for some thing."@en ;
+          rdfs:label "name"@en .
+
+
+###  https://schema.org/address
+schema:address rdf:type owl:DatatypeProperty ;
+               rdfs:domain [ rdf:type owl:Class ;
+                             owl:unionOf ( foaf:Organization
+                                           foaf:Person
+                                         )
+                           ] ;
+               rdfs:range xsd:string ;
+               rdfs:comment "Physical address of the item."@en ;
+               rdfs:label "address"@en .
+
+
+###  https://schema.org/addressLocality
+schema:addressLocality rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf schema:address ;
+                       rdfs:range xsd:string ;
+                       rdfs:comment "The locality in which the street address is, and which is in the region. For example, BHEL Layout."@en ;
+                       rdfs:label "address locality"@en .
+
+
+###  https://schema.org/latitude
+schema:latitude rdf:type owl:DatatypeProperty ;
+                rdfs:domain schema:Place ;
+                rdfs:range xsd:string ;
+                rdfs:comment "The latitude of a location. For example 37.42242"@en ;
+                rdfs:label "latitude"@en .
+
+
+###  https://schema.org/longitude
+schema:longitude rdf:type owl:DatatypeProperty ;
+                 rdfs:domain schema:Place ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "The longitude of a location. For example -122.08585."@en ;
+                 rdfs:label "longitude"@en .
+
+
+###  https://schema.org/postalCode
+schema:postalCode rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf schema:address ;
+                  rdfs:range xsd:string ;
+                  rdfs:comment "The postal code. For example, 560060"@en ;
+                  rdfs:label "postal code"@en .
+
+
+###  https://schema.org/streetAddress
+schema:streetAddress rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf schema:address ;
+                     rdfs:range xsd:string ;
+                     rdfs:comment "The street address. For example, 1st Main, Muthurainagara."@en ;
+                     rdfs:label "street address"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.obolibrary.org/obo/SYMP_0000462
+<http://purl.obolibrary.org/obo/SYMP_0000462> rdf:type owl:Class ;
+                                              owl:equivalentClass <http://snomed.info/id/404684003> ;
+                                              rdfs:comment "A symptom is a perceived change in function, sensation, loss, disturbance or appearance reported by a patient indicative of a disease."@en ,
+                                                           """Source: https://www.mohfw.gov.in/pdf/FinalGuidanceonMangaementofCovidcasesversion2.pdf 
+
+https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"""@en ;
+                                              rdfs:label "Symptom"@en .
+
+
+###  http://schema.org/CovidTestingFacility
+<http://schema.org/CovidTestingFacility> rdf:type owl:Class ;
+                                         rdfs:subClassOf <http://schema.org/MedicalClinic> ;
+                                         rdfs:comment "A Medical clinic where testing for the COVID-19 Coronavirus disease is available."@en ,
+                                                      "Covid testing facility"@en .
+
+
+###  http://schema.org/MedicalClinic
+<http://schema.org/MedicalClinic> rdf:type owl:Class ;
+                                  rdfs:subClassOf foaf:Organization ;
+                                  rdfs:comment "A facility, often associated with a hospital or medical school, that is devoted to the specific diagnosis and/or healthcare."@en ;
+                                  rdfs:label "Medical clinic"@en .
+
+
+###  http://snomed.info/id/404684003
+<http://snomed.info/id/404684003> rdf:type owl:Class ;
+                                  rdfs:label "Clinical finding (finding)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#COVID-19
+:COVID-19 rdf:type owl:Class ;
+          rdfs:subClassOf :CoronavirusInfection ;
+          rdfs:comment "A disease caused by severe acute respiratory syndrome coronavirus 2."@en ,
+                       "SCTID: 840539006"@en ;
+          rdfs:label "Disease caused by 2019 novel coronavirus"@en ,
+                     "Disease caused by 2019-nCoV"@en ,
+                     "Disease caused by severe acute respiratory syndrome coronavirus 2"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#COVID-19DedicatedFacility
+:COVID-19DedicatedFacility rdf:type owl:Class ;
+                           rdfs:subClassOf foaf:Organization ;
+                           rdfs:comment "Any facility for providing care to COVID-19 patients."@en ,
+                                        "source: https://www.mohfw.gov.in/pdf/FinalGuidanceonMangaementofCovidcasesversion2.pdf"@en ;
+                           rdfs:label "COVID-19 dedicated facility"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#COVID-19Diagnosis
+:COVID-19Diagnosis rdf:type owl:Class ;
+                   rdfs:subClassOf :Diagnosis ;
+                   rdfs:comment """The diagnosis as COVID-19 patient. 
+The diagnosied COVID-19 patients are categorised to three different categories/cases based on various clinical test and vital signs."""@en ;
+                   rdfs:label "COVID-19 Diagnosis"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#City
+:City rdf:type owl:Class ;
+      rdfs:subClassOf schema:Place .
+
+
+###  http://www.isibang.ac.in/ns/codo#CloseContact
+:CloseContact rdf:type owl:Class ;
+              rdfs:subClassOf :ExposureToCOVID-19 ;
+              rdfs:comment "Close contact, a suspected cause for catching COVID-19."@en ;
+              rdfs:label "Close contact"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#CoronavirusInfection
+:CoronavirusInfection rdf:type owl:Class ;
+                      rdfs:subClassOf :DiseaseCausedByCoronaviridae ;
+                      rdfs:comment "Coronaviruses are a large family of viruses which may cause illness in animals or humans.  In humans, several coronaviruses are known to cause respiratory infections ranging from the common cold to more severe diseases such as Middle East Respiratory Syndrome (MERS) and Severe Acute Respiratory Syndrome (SARS). (source: https://www.who.int/news-room/q-a-detail/q-a-coronaviruses)"@en ,
+                                   "SCTID: 186747009"@en ;
+                      rdfs:label "Coronavirus infection"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#CountryWiseStatistics
+:CountryWiseStatistics rdf:type owl:Class ;
+                       rdfs:subClassOf :Statistics ;
+                       rdfs:label "Country wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#CovidCareCentre
+:CovidCareCentre rdf:type owl:Class ;
+                 rdfs:subClassOf :COVID-19DedicatedFacility ;
+                 rdfs:comment "Any facility, such as hotels/lodges/hostels/stadiums for providing care to COVID-19 patients are reffered as Covid Care Centre (CCC)."@en ;
+                 rdfs:label "Covid Care Centre (CCC)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DedicatedCovidHealthCentre
+:DedicatedCovidHealthCentre rdf:type owl:Class ;
+                            rdfs:subClassOf :COVID-19DedicatedFacility ;
+                            rdfs:comment "The Dedicated COVID Health Centre are hospitals that shall offer care for all cases that have been clinically assigned as moderate."@en ;
+                            rdfs:label "Dedicated Covid Health Centre (DCHC)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DedicatedCovidHospital
+:DedicatedCovidHospital rdf:type owl:Class ;
+                        rdfs:subClassOf :COVID-19DedicatedFacility ;
+                        rdfs:comment "The Dedicated COVID Hospitals are hospitals that shall offer comprehensive care primarily for those who have been clinically assigned as severe."@en ;
+                        rdfs:label "Dedicated Covid Hospital (DCH)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DiagnosedWithCovid
+:DiagnosedWithCovid rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( schema:Patient
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasDiagnosis ;
+                                                                 owl:someValuesFrom :COVID-19Diagnosis
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
+
+###  http://www.isibang.ac.in/ns/codo#Diagnosis
+:Diagnosis rdf:type owl:Class ;
+           rdfs:comment "SCTID: 439401001"@en ,
+                        "identifying the nature or cause of some phenomenon."@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Disease
+:Disease rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty foaf:name ;
+                           owl:someValuesFrom xsd:string
+                         ] ;
+         rdfs:comment "SCTID: 64572001"@en ,
+                      "an impairment of health or a condition of abnormal functioning."@en ;
+         rdfs:label "Disease"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DiseaseCausedByCoronaviridae
+:DiseaseCausedByCoronaviridae rdf:type owl:Class ;
+                              rdfs:subClassOf :ViralDisease ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty :covid-19ClinicalFacility ;
+                                                owl:someValuesFrom <http://schema.org/CovidTestingFacility>
+                                              ] ;
+                              rdfs:comment "A viral disease caused by coronavirus."@en ,
+                                           "SCTID: 27619001"@en ;
+                              rdfs:label "Disease caused by Coronaviridae"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#District
+:District rdf:type owl:Class ;
+          rdfs:subClassOf schema:Place ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :districtWiseStatistics ;
+                            owl:someValuesFrom :DistrictWiseStatistics
+                          ] ;
+          rdfs:comment "An adminidtrative area spanning regions or counties, several municipalities, subdivisions of municipalities, school district, or political district."@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DistrictWiseStatistics
+:DistrictWiseStatistics rdf:type owl:Class ;
+                        rdfs:subClassOf :Statistics ;
+                        rdfs:label "District wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Doctor
+:Doctor rdf:type owl:Class ;
+        rdfs:subClassOf foaf:Person ;
+        rdfs:comment "A licensed medical practitioner."@en ,
+                     "SCTID: 158965000"@en ;
+        rdfs:label "Doctor"@en ,
+                   "Medical practitioner"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#ExposureToCOVID-19
+:ExposureToCOVID-19 rdf:type owl:Class ;
+                    rdfs:comment "Suspected causes of catching COVID-19."@en ;
+                    rdfs:label "Exposure to COVID-19"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Gathering
+:Gathering rdf:type owl:Class ;
+           rdfs:subClassOf :ExposureToCOVID-19 ;
+           rdfs:comment "Mass gathering, a suspected cause for catching COVID-19."@en ;
+           rdfs:label "Gathering"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#InfectedCo-Passenger
+:InfectedCo-Passenger rdf:type owl:Class ;
+                      rdfs:subClassOf :ExposureToCOVID-19 .
+
+
+###  http://www.isibang.ac.in/ns/codo#InfectedCo-Worker
+:InfectedCo-Worker rdf:type owl:Class ;
+                   rdfs:subClassOf :ExposureToCOVID-19 .
+
+
+###  http://www.isibang.ac.in/ns/codo#InfectedFamilyMember
+:InfectedFamilyMember rdf:type owl:Class ;
+                      rdfs:subClassOf :ExposureToCOVID-19 .
+
+
+###  http://www.isibang.ac.in/ns/codo#InfectedSpouse
+:InfectedSpouse rdf:type owl:Class ;
+                rdfs:subClassOf :InfectedFamilyMember .
+
+
+###  http://www.isibang.ac.in/ns/codo#LaboratiryTestFinding
+:LaboratiryTestFinding rdf:type owl:Class ;
+                       owl:equivalentClass [ rdf:type owl:Class ;
+                                             owl:oneOf ( :Negative
+                                                         :Pending
+                                                         :Positive
+                                                       )
+                                           ] ;
+                       rdfs:subClassOf :TestResult ;
+                       rdfs:comment "SCTID: 118246004"@en ,
+                                    "The laboratory test finding of the patient. The possible values are Positive, Negative, Pending."@en ;
+                       rdfs:label "Laboratory test finding"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Man
+:Man rdf:type owl:Class ;
+     owl:equivalentClass [ owl:intersectionOf ( foaf:Person
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty pending:gender ;
+                                                  owl:hasValue :Male
+                                                ]
+                                              ) ;
+                           rdf:type owl:Class
+                         ] ;
+     rdfs:comment "A man."@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#MildAndVeryMildCOVID-19
+:MildAndVeryMildCOVID-19 rdf:type owl:Class ;
+                         rdfs:subClassOf :COVID-19Diagnosis ;
+                         rdfs:comment """Cases presenting with fever and/or upper respiratory tract illness (Influenza
+Like Illness, ILI)."""@en ;
+                         rdfs:label "Mild and very mild COVID-19"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#ModerateCOVID-19
+:ModerateCOVID-19 rdf:type owl:Class ;
+                  rdfs:subClassOf :COVID-19Diagnosis ;
+                  rdfs:comment "Pneumonia with no signs of severe disease (Respiratory Rate 15 to 30/minute, SpO2 90%-94%)."@en ;
+                  rdfs:label "Moderate COVID-19"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Nurse
+:Nurse rdf:type owl:Class ;
+       rdfs:subClassOf foaf:Person ;
+       rdfs:comment "A health professional skilled in caring for young children or the sick (usually under the supervision of a physician)."@en ,
+                    "SCTID: 106292003"@en ;
+       rdfs:label "Nurse"@en ,
+                  "Professional nurse"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#SevereCOVID-19
+:SevereCOVID-19 rdf:type owl:Class ;
+                rdfs:subClassOf :COVID-19Diagnosis ;
+                rdfs:comment "Severe Pneumonia (with respiratory rate ≥30/minute and/or SpO2 < 90% in room air) or ARDS or Septic shock."@en ;
+                rdfs:label "Severe COVID-19"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#StateWiseStatistics
+:StateWiseStatistics rdf:type owl:Class ;
+                     rdfs:subClassOf :Statistics ;
+                     rdfs:label "State wise statistics"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Statistics
+:Statistics rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :active ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :bedShortage ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :bedsNeeded ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :cases ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :covid-19caseOn ;
+                              owl:someValuesFrom xsd:dateTime
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :dailyIncreasedCases ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :deceased ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :icuBedShortage ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :icuBedsNeeded ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :invasiveVentilatorsNeeded ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :noOfPeopleMigrated ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :recovered ;
+                              owl:someValuesFrom xsd:integer
+                            ] ;
+            rdfs:comment "Statistics based on each day."@en ,
+                         "Statistics of COVID-19 cases which includes the deatils of active, recovered, deaths, and also the resources (e.g., beds required, shortage of beds, ICUs) on daily basis."@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Status
+:Status rdf:type owl:Class ;
+        rdfs:comment "The current status of the patient, for example: recovered, hospitalized, deceased."@en ;
+        rdfs:label "Status"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#TestResult
+:TestResult rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :testedInClinic ;
+                              owl:someValuesFrom <http://schema.org/MedicalClinic>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :testResultOn ;
+                              owl:someValuesFrom xsd:dateTime
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :testResultOn ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:dateTime
+                            ] ;
+            rdfs:comment "A test result."@en ;
+            rdfs:label "Test result"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#UntestedForCovid
+:UntestedForCovid rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( foaf:Person
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :hadCovidTest ;
+                                                               owl:hasValue "false"^^xsd:boolean
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] .
+
+
+###  http://www.isibang.ac.in/ns/codo#UrgentlyNeedsCovidTest
+:UrgentlyNeedsCovidTest rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( foaf:Person
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hasCloseRelationship ;
+                                                                     owl:someValuesFrom :DiagnosedWithCovid
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :hadCovidTest ;
+                                                                     owl:hasValue "false"^^xsd:boolean
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] .
+
+
+###  http://www.isibang.ac.in/ns/codo#ViralDisease
+:ViralDisease rdf:type owl:Class ;
+              rdfs:subClassOf schema:InfectiousDisease ;
+              rdfs:comment "SCTID: 34014006"@en ;
+              rdfs:label "Viral disease"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#VitalSigns
+:VitalSigns rdf:type owl:Class ;
+            rdfs:subClassOf :TestResult ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :BP-diastolic ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :BP-systolic ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :SpO2 ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :heartRate ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :respiratoryRate ;
+                              owl:someValuesFrom xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :temperature ;
+                              owl:someValuesFrom xsd:decimal
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :BP-diastolic ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :BP-systolic ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :SpO2 ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :heartRate ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :respiratoryRate ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:integer
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :temperature ;
+                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:decimal
+                            ] ;
+            rdfs:comment "The vital signs of a suspected covid-19 patient as found through clinical tests."@en ;
+            rdfs:label "Vital signs"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Woman
+:Woman rdf:type owl:Class ;
+       owl:equivalentClass [ owl:intersectionOf ( foaf:Person
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty pending:gender ;
+                                                    owl:hasValue :Female
+                                                  ]
+                                                ) ;
+                             rdf:type owl:Class
+                           ] ;
+       rdfs:comment "A women."@en .
+
+
+###  http://xmlns.com/foaf/0.1/Agent
+foaf:Agent rdf:type owl:Class ;
+           rdfs:comment "An agent (eg. person, group, software or physical artifact)."@en ;
+           rdfs:label "Agent"@en .
+
+
+###  http://xmlns.com/foaf/0.1/Organization
+foaf:Organization rdf:type owl:Class ;
+                  rdfs:subClassOf foaf:Agent ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :location ;
+                                    owl:someValuesFrom schema:Place
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty schema:address ;
+                                    owl:someValuesFrom xsd:string
+                                  ] ;
+                  rdfs:comment "A group of people who work together."@en ;
+                  rdfs:label "Organization"@en .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+foaf:Person rdf:type owl:Class ;
+            rdfs:subClassOf foaf:Agent ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty schema:nationality ;
+                              owl:someValuesFrom schema:Place
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty schema:address ;
+                              owl:someValuesFrom xsd:string
+                            ] ;
+            rdfs:comment "A human being."@en ;
+            rdfs:label "Person"@en .
+
+
+###  https://schema.org/Country
+schema:Country rdf:type owl:Class ;
+               rdfs:subClassOf schema:Place ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :countryWiseStatistics ;
+                                 owl:someValuesFrom :CountryWiseStatistics
+                               ] ;
+               rdfs:comment "A country."@en .
+
+
+###  https://schema.org/GenderType
+schema:GenderType rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Class ;
+                                        owl:oneOf ( :Female
+                                                    :Male
+                                                  )
+                                      ] ;
+                  rdfs:comment "An enumeration of genders."@en ;
+                  rdfs:label "Gender type"@en .
+
+
+###  https://schema.org/InfectiousDisease
+schema:InfectiousDisease rdf:type owl:Class ;
+                         rdfs:subClassOf :Disease ;
+                         rdfs:comment "An infectious disease is a clinically evident human disease resulting from the presence of pathogenic microbial agents, like pathogenic viruses, pathogenic bacteria, fungi, protozoa, multicellular parasites, and prions. To be considered an infectious disease, such pathogens are known to be able to cause this disease."@en ,
+                                      "SCTID: 40733004"@en ;
+                         rdfs:label "Infectious disease"@en .
+
+
+###  https://schema.org/Patient
+schema:Patient rdf:type owl:Class ;
+               rdfs:subClassOf foaf:Person ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasDiagnosis ;
+                                 owl:someValuesFrom :Diagnosis
+                               ] ;
+               rdfs:comment "A patient is any person recipient of health care services."@en ,
+                            """Patients are categorised into three groups based on the following guidelines. 
+
+Source: https://www.mohfw.gov.in/pdf/FinalGuidanceonMangaementofCovidcasesversion2.pdf"""@en ,
+                            "SCTID: 116154003"@en ;
+               rdfs:label "Patient"@en .
+
+
+###  https://schema.org/Place
+schema:Place rdf:type owl:Class ;
+             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                               owl:onProperty foaf:name ;
+                               owl:someValuesFrom xsd:string
+                             ] ;
+             rdfs:comment "Entities that have a somewhat fixed, physical extension."@en .
+
+
+###  https://schema.org/State
+schema:State rdf:type owl:Class ;
+             rdfs:subClassOf schema:Place ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :stateWiseStatistics ;
+                               owl:someValuesFrom :StateWiseStatistics
+                             ] ;
+             rdfs:comment "A state or province of a country."@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.isibang.ac.in/ns/codo#AchesAndPains
+:AchesAndPains rdf:type owl:NamedIndividual ,
+                        <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+               rdfs:comment "SCTID: 82991003"@en ;
+               rdfs:label "Generalized aches and pains (finding)"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Anniversary
+:Anniversary rdf:type owl:NamedIndividual ,
+                      :Gathering .
+
+
+###  http://www.isibang.ac.in/ns/codo#BengUrbanDistStat000001
+:BengUrbanDistStat000001 rdf:type owl:NamedIndividual ,
+                                  :DistrictWiseStatistics ;
+                         :cases 59 .
+
+
+###  http://www.isibang.ac.in/ns/codo#BengUrbanDistStat000002
+:BengUrbanDistStat000002 rdf:type owl:NamedIndividual ,
+                                  :DistrictWiseStatistics .
+
+
+###  http://www.isibang.ac.in/ns/codo#BengaluruUrban
+:BengaluruUrban rdf:type owl:NamedIndividual ,
+                         :District ;
+                :districtWiseStatistics :BengUrbanDistStat000001 ,
+                                        :BengUrbanDistStat000002 ;
+                :isPartOf :Karnataka .
+
+
+###  http://www.isibang.ac.in/ns/codo#Cured
+:Cured rdf:type owl:NamedIndividual ,
+                :Status ;
+       rdfs:label "Recovered"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Deceased
+:Deceased rdf:type owl:NamedIndividual ,
+                   :Status .
+
+
+###  http://www.isibang.ac.in/ns/codo#Diarrhea
+:Diarrhea rdf:type owl:NamedIndividual ,
+                   <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+          rdfs:comment "SCTID: 62315008"@en ;
+          rdfs:label "Diarrhea"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#DryCough
+:DryCough rdf:type owl:NamedIndividual ,
+                   <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+          rdfs:comment "SCTID: 11833005"@en ;
+          rdfs:label "Dry cough"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Female
+:Female rdf:type owl:NamedIndividual .
+
+
+###  http://www.isibang.ac.in/ns/codo#Fever
+:Fever rdf:type owl:NamedIndividual ,
+                <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+       rdfs:comment "SCTID: 386661006"@en ;
+       rdfs:label "Fever"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#HackingCough
+:HackingCough rdf:type owl:NamedIndividual ,
+                       <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+              rdfs:comment "SCTTID: 59994004"@en ;
+              rdfs:label "Hacking cough"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Hospitalized
+:Hospitalized rdf:type owl:NamedIndividual ,
+                       :Status .
+
+
+###  http://www.isibang.ac.in/ns/codo#India
+:India rdf:type owl:NamedIndividual ,
+                schema:Country ;
+       :countryWiseStatistics :IndiaStat000001 ;
+       foaf:name "India"^^xsd:string ;
+       rdfs:label "India"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#IndiaStat000001
+:IndiaStat000001 rdf:type owl:NamedIndividual ,
+                          :CountryWiseStatistics ;
+                 :active 14759 ;
+                 :cases 18601 ;
+                 :deceased 590 ;
+                 :recovered 3252 .
+
+
+###  http://www.isibang.ac.in/ns/codo#Karnataka
+:Karnataka rdf:type owl:NamedIndividual ,
+                    schema:State ;
+           :isPartOf :India ;
+           :stateWiseStatistics :karntStateStat000001 ,
+                                :karntStateStat000002 ;
+           foaf:name "Karnataka"^^xsd:string ;
+           rdfs:label "Karnataka"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#Male
+:Male rdf:type owl:NamedIndividual .
+
+
+###  http://www.isibang.ac.in/ns/codo#NasalCongestion
+:NasalCongestion rdf:type owl:NamedIndividual ,
+                          <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+                 rdfs:comment "SCTID: 68235000"@en ;
+                 rdfs:label "Nasal congestion"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Negative
+:Negative rdf:type owl:NamedIndividual .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000001-Vitals1
+:P000001-Vitals1 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :heartRate 120 ;
+                 :respiratoryRate 10 .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000001Diagnosis
+:P000001Diagnosis rdf:type owl:NamedIndividual ,
+                           :Diagnosis .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000002-Vitals1
+:P000002-Vitals1 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :respiratoryRate 15 ;
+                 :testResultOn "2020-04-26T09:00:00"^^xsd:dateTime .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000002Diagnosis
+:P000002Diagnosis rdf:type owl:NamedIndividual ,
+                           :Diagnosis ;
+                  :hadCovidTest "false"^^xsd:boolean .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000003-Vitals1
+:P000003-Vitals1 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :SpO2 90 ;
+                 :respiratoryRate 35 ;
+                 :testResultOn "2020-04-21T10:00:00"^^xsd:dateTime .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000003-Vitals2
+:P000003-Vitals2 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :previousTestResult :P000003-Vitals1 ;
+                 :testResultOn "2020-04-22T10:00:00"^^xsd:dateTime .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000003-Vitals3
+:P000003-Vitals3 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :previousTestResult :P000003-Vitals2 ;
+                 :testResultOn "2020-04-23T11:00:00"^^xsd:dateTime .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000003-Vitals4
+:P000003-Vitals4 rdf:type owl:NamedIndividual ,
+                          :VitalSigns ;
+                 :previousTestResult :P000003-Vitals3 ;
+                 :SpO2 90 ;
+                 :respiratoryRate 35 ;
+                 :testResultOn "2020-04-26T08:00:00"^^xsd:dateTime .
+
+
+###  http://www.isibang.ac.in/ns/codo#P000003Diagnosis
+:P000003Diagnosis rdf:type owl:NamedIndividual ,
+                           :Diagnosis .
+
+
+###  http://www.isibang.ac.in/ns/codo#Pain
+:Pain rdf:type owl:NamedIndividual ,
+               <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+      rdfs:comment "SCTID: 22253000"@en ;
+      rdfs:label "Pain"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#PainInThroat
+:PainInThroat rdf:type owl:NamedIndividual ,
+                       <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+              rdfs:comment "SCTID: 162397003"@en ;
+              rdfs:label "Pain in throat"@en ,
+                         "Sore throat"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Pending
+:Pending rdf:type owl:NamedIndividual .
+
+
+###  http://www.isibang.ac.in/ns/codo#Pneumonia
+:Pneumonia rdf:type owl:NamedIndividual ,
+                    <http://purl.obolibrary.org/obo/SYMP_0000462> .
+
+
+###  http://www.isibang.ac.in/ns/codo#Positive
+:Positive rdf:type owl:NamedIndividual .
+
+
+###  http://www.isibang.ac.in/ns/codo#RunnyNose
+:RunnyNose rdf:type owl:NamedIndividual ,
+                    <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+           rdfs:comment "SCTID: 267101005"@en ;
+           rdfs:label "Nasal discharge presen"@en ,
+                      "Nose dripping"@en ,
+                      "Nose running"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#SeverePneumonia
+:SeverePneumonia rdf:type owl:NamedIndividual ,
+                          <http://purl.obolibrary.org/obo/SYMP_0000462> .
+
+
+###  http://www.isibang.ac.in/ns/codo#Sneezing
+:Sneezing rdf:type owl:NamedIndividual ,
+                   <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+          rdfs:comment "SCTID: 76067001"@en ;
+          rdfs:label "Sneezing"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#Tired
+:Tired rdf:type owl:NamedIndividual ,
+                <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+       rdfs:comment "SCTID: 224960004"@en ;
+       rdfs:label "Feeling tired"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#UP
+:UP rdf:type owl:NamedIndividual ,
+             schema:State ;
+    :isPartOf :India ;
+    :stateWiseStatistics :upStatState000001 ,
+                         :upStatState000002 ;
+    foaf:name "Uttar Pradesh"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#URTI
+:URTI rdf:type owl:NamedIndividual ,
+               <http://purl.obolibrary.org/obo/SYMP_0000462> ;
+      rdfs:comment "SCTID: 54150009"@en ;
+      rdfs:label "URTI"@en ,
+                 "Upper Respiratory Tract Infection"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#covid-19
+:covid-19 rdf:type owl:NamedIndividual ,
+                   :COVID-19 ;
+          :location :BengaluruUrban ,
+                    :India ,
+                    :Karnataka ,
+                    :UP .
+
+
+###  http://www.isibang.ac.in/ns/codo#karntStateStat000001
+:karntStateStat000001 rdf:type owl:NamedIndividual ,
+                               :StateWiseStatistics ;
+                      :cases 10 .
+
+
+###  http://www.isibang.ac.in/ns/codo#karntStateStat000002
+:karntStateStat000002 rdf:type owl:NamedIndividual ,
+                               :StateWiseStatistics ;
+                      :cases 10 .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000001
+:p000001 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hasBrother :p000005 ;
+         :hasDaughter :p000007 ;
+         :hasDiagnosis :P000001Diagnosis ;
+         :hasSon :p000006 ;
+         :hasSymptom :Fever ,
+                     :URTI ;
+         :mostRecentTestResult :P000001-Vitals1 ;
+         pending:gender :Male ;
+         :hadCovidTest "true"^^xsd:boolean ;
+         :hasID "T1"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000002
+:p000002 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hasDiagnosis :P000002Diagnosis ;
+         :hasSymptom :Pneumonia ;
+         :mostRecentTestResult :P000002-Vitals1 ;
+         :hadCovidTest "true"^^xsd:boolean ;
+         :hasID "T2"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000003
+:p000003 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hasDiagnosis :P000003Diagnosis ;
+         :hasSymptom :SeverePneumonia ;
+         :hasTestResult :P000003-Vitals1 ,
+                        :P000003-Vitals2 ,
+                        :P000003-Vitals3 ;
+         :mostRecentTestResult :P000003-Vitals4 ;
+         :hadCovidTest "true"^^xsd:boolean ;
+         :hasID "T3"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000004
+:p000004 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hasDaughter :p000007 ;
+         :hasSon :p000006 ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T4"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000005
+:p000005 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T5"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000006
+:p000006 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T6"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000007
+:p000007 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T7"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000008
+:p000008 rdf:type owl:NamedIndividual ,
+                  :Woman ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T8"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000009
+:p000009 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "true"^^xsd:boolean ;
+         :hasID "T9"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000010
+:p000010 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T10"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000011
+:p000011 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "true"^^xsd:boolean ;
+         :hasID "T11"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#p000012
+:p000012 rdf:type owl:NamedIndividual ,
+                  foaf:Person ;
+         :hadCovidTest "false"^^xsd:boolean ;
+         :hasID "T12"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#upStatState000001
+:upStatState000001 rdf:type owl:NamedIndividual ,
+                            :StateWiseStatistics ;
+                   :cases 15 ;
+                   foaf:name "Bengalure Urban"^^xsd:string .
+
+
+###  http://www.isibang.ac.in/ns/codo#upStatState000002
+:upStatState000002 rdf:type owl:NamedIndividual ,
+                            :StateWiseStatistics .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+<http://www.isibang.ac.in/ns/covid19#p> rdf:type swrl:Variable .
+
+<http://www.isibang.ac.in/ns/covid19#d> rdf:type swrl:Variable .
+
+<http://www.isibang.ac.in/ns/covid19#tr> rdf:type swrl:Variable .
+
+<http://www.isibang.ac.in/ns/covid19#sp> rdf:type swrl:Variable .
+
+<http://www.isibang.ac.in/ns/covid19#r> rdf:type swrl:Variable .
+
+:p rdf:type swrl:Variable .
+
+:b rdf:type swrl:Variable .
+
+:c rdf:type swrl:Variable .
+
+:s rdf:type swrl:Variable .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Uncle Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasBrother ;
+                           swrl:argument1 :p ;
+                           swrl:argument2 :b
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasChild ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasUncle ;
+                           swrl:argument1 :c ;
+                           swrl:argument2 :b
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Aunt Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasSister ;
+                           swrl:argument1 :p ;
+                           swrl:argument2 :s
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasChild ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasAunt ;
+                           swrl:argument1 :c ;
+                           swrl:argument2 :s
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Niece Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasSibling ;
+                           swrl:argument1 :p ;
+                           swrl:argument2 :s
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasDaughter ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasNiece ;
+                           swrl:argument1 :s ;
+                           swrl:argument2 :c
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Mild and Very Mild Covid19 Diagnostic Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasDiagnosis ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                           swrl:argument2 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasSymptom ;
+                                      swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                      swrl:argument2 :URTI
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :hasSymptom ;
+                                                 swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                                 swrl:argument2 :Fever
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :MildAndVeryMildCOVID-19 ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Moderate Covid19 Diagnostic Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasDiagnosis ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                           swrl:argument2 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasSymptom ;
+                                      swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                      swrl:argument2 :Pneumonia
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                 swrl:builtin swrlb:greaterThanOrEqual ;
+                                                 swrl:arguments [ rdf:type rdf:List ;
+                                                                  rdf:first <http://www.isibang.ac.in/ns/covid19#r> ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first 15 ;
+                                                                             rdf:rest rdf:nil
+                                                                           ]
+                                                                ]
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :respiratoryRate ;
+                                                            swrl:argument1 <http://www.isibang.ac.in/ns/covid19#tr> ;
+                                                            swrl:argument2 <http://www.isibang.ac.in/ns/covid19#r>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate :mostRecentTestResult ;
+                                                                       swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                                                       swrl:argument2 <http://www.isibang.ac.in/ns/covid19#tr>
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :ModerateCOVID-19 ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Nephew Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasSibling ;
+                           swrl:argument1 :p ;
+                           swrl:argument2 :s
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasSon ;
+                                      swrl:argument1 :p ;
+                                      swrl:argument2 :c
+                                    ] ;
+                          rdf:rest rdf:nil
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasNephew ;
+                           swrl:argument1 :s ;
+                           swrl:argument2 :c
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment ""^^xsd:string ;
+   rdfs:label "Severe Covid19 Diagnostic Rule"^^xsd:string ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasDiagnosis ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                           swrl:argument2 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate :SpO2 ;
+                                      swrl:argument1 <http://www.isibang.ac.in/ns/covid19#tr> ;
+                                      swrl:argument2 <http://www.isibang.ac.in/ns/covid19#sp>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate foaf:Person ;
+                                                 swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                            swrl:propertyPredicate :hasSymptom ;
+                                                            swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                                            swrl:argument2 :SeverePneumonia
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                                       swrl:propertyPredicate :respiratoryRate ;
+                                                                       swrl:argument1 <http://www.isibang.ac.in/ns/covid19#tr> ;
+                                                                       swrl:argument2 <http://www.isibang.ac.in/ns/covid19#r>
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                                  swrl:builtin swrlb:greaterThanOrEqual ;
+                                                                                  swrl:arguments [ rdf:type rdf:List ;
+                                                                                                   rdf:first <http://www.isibang.ac.in/ns/covid19#r> ;
+                                                                                                   rdf:rest [ rdf:type rdf:List ;
+                                                                                                              rdf:first 30 ;
+                                                                                                              rdf:rest rdf:nil
+                                                                                                            ]
+                                                                                                 ]
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate :mostRecentTestResult ;
+                                                                                             swrl:argument1 <http://www.isibang.ac.in/ns/covid19#p> ;
+                                                                                             swrl:argument2 <http://www.isibang.ac.in/ns/covid19#tr>
+                                                                                           ] ;
+                                                                                 rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                            rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                                                        swrl:builtin swrlb:greaterThanOrEqual ;
+                                                                                                        swrl:arguments [ rdf:type rdf:List ;
+                                                                                                                         rdf:first <http://www.isibang.ac.in/ns/covid19#sp> ;
+                                                                                                                         rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                    rdf:first 90 ;
+                                                                                                                                    rdf:rest rdf:nil
+                                                                                                                                  ]
+                                                                                                                       ]
+                                                                                                      ] ;
+                                                                                            rdf:rest rdf:nil
+                                                                                          ]
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :SevereCOVID-19 ;
+                           swrl:argument1 <http://www.isibang.ac.in/ns/covid19#d>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
