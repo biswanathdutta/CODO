@@ -10,7 +10,6 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix swrl: <http://www.w3.org/2003/11/swrl#> .
-@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
 @prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
 @prefix schema: <https://schema.org/> .
@@ -31,23 +30,6 @@ The primary focuses of the model are:
                                     dct:license "https://creativecommons.org/licenses/by/4.0/"^^xsd:anyURI ;
                                     dct:publisher "Indian Statistical Institute"@en ;
                                     dct:title "An Ontology for Representation and Publication of COVID-19 Cases and Patient Information"@en ;
-                                    vann:changes """Added class: 
-UrgentlyNeedsCovidTest 
-City, Status 
-
-Added property: 
-Object property: 
-contractedVirusFrom, passesVriusTo  
-hasCloseRelationship, hasTravelCompanion 
-city, country, district, state 
-status 
-
-Data property: 
-hasCausedAnySecondaryInfections 
-hasID(caseID) 
-
-Removed: 
-Data property: patientStatus, patientID"""^^xsd:string ;
                                     mod:browsingUI "http://www.isibang.ac.in/ns/codo"^^xsd:anyURI ;
                                     mod:competencyQuestion """Some example competency questions: 
 How many people recovered from COVId-19 in place p until date t? 
@@ -56,8 +38,7 @@ Give me the travel history of patient p?
 Give me the COVID-19 patients and their relationship, if any. 
 Give me the COVID-19 patients who are in family relationships. 
 Give me the primary reasons for the maximum number of COVID-19 patients. 
-Give me the most prevalent symtopms of Severe COVID-19."""^^xsd:string ;
-                                    rdfs:comment "" .
+Give me the most prevalent symtopms of Severe COVID-19."""^^xsd:string .
 
 #################################################################
 #    Annotation properties
@@ -99,10 +80,6 @@ dct:publisher rdf:type owl:AnnotationProperty .
 dct:title rdf:type owl:AnnotationProperty .
 
 
-###  http://purl.org/vocab/vann/changes
-vann:changes rdf:type owl:AnnotationProperty .
-
-
 ###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
 swrla:isRuleEnabled rdf:type owl:AnnotationProperty .
 
@@ -129,6 +106,7 @@ rdfs:seeAlso rdf:type owl:AnnotationProperty .
 
 ###  http://www.isibang.ac.in/ns/codo#admittedIn
 :admittedIn rdf:type owl:ObjectProperty ;
+            owl:inverseOf :hasAdmittedPatient ;
             rdfs:domain schema:Patient ;
             rdfs:range :COVID-19DedicatedFacility ;
             rdfs:comment "The patient admitted to the covid-19 dedicated facilities, like home, hotel, hospital, etc."@en ;
@@ -217,6 +195,10 @@ rdfs:seeAlso rdf:type owl:AnnotationProperty .
               rdfs:range foaf:Person ;
               rdfs:comment "A person is a domestic help to anothe person."@en ;
               rdfs:label "domestic help"@en .
+
+
+###  http://www.isibang.ac.in/ns/codo#hasAdmittedPatient
+:hasAdmittedPatient rdf:type owl:ObjectProperty .
 
 
 ###  http://www.isibang.ac.in/ns/codo#hasAunt
@@ -995,12 +977,7 @@ https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"""@en ;
 
 ###  http://www.isibang.ac.in/ns/codo#COVID-19
 :COVID-19 rdf:type owl:Class ;
-          rdfs:subClassOf :CoronavirusInfection ;
-          rdfs:comment "A disease caused by severe acute respiratory syndrome coronavirus 2."@en ,
-                       "SCTID: 840539006"@en ;
-          rdfs:label "Disease caused by 2019 novel coronavirus"@en ,
-                     "Disease caused by 2019-nCoV"@en ,
-                     "Disease caused by severe acute respiratory syndrome coronavirus 2"@en .
+          rdfs:subClassOf :CoronavirusInfection .
 
 
 ###  http://www.isibang.ac.in/ns/codo#COVID-19DedicatedFacility
@@ -1289,6 +1266,10 @@ Like Illness, ILI)."""@en ;
         rdfs:label "Status"@en .
 
 
+###  http://www.isibang.ac.in/ns/codo#TestData
+:TestData rdf:type owl:Class .
+
+
 ###  http://www.isibang.ac.in/ns/codo#TestResult
 :TestResult rdf:type owl:Class ;
             rdfs:subClassOf [ rdf:type owl:Restriction ;
@@ -1551,10 +1532,13 @@ schema:State rdf:type owl:Class ;
                 :isPartOf :Karnataka .
 
 
-###  http://www.isibang.ac.in/ns/codo#Cured
-:Cured rdf:type owl:NamedIndividual ,
-                :Status ;
-       rdfs:label "Recovered"@en .
+###  http://www.isibang.ac.in/ns/codo#COVID-19
+:COVID-19 rdf:type owl:NamedIndividual ,
+                   :COVID-19 ;
+          :location :BengaluruUrban ,
+                    :India ,
+                    :Karnataka ,
+                    :UP .
 
 
 ###  http://www.isibang.ac.in/ns/codo#Deceased
@@ -1730,6 +1714,11 @@ schema:State rdf:type owl:Class ;
 :Positive rdf:type owl:NamedIndividual .
 
 
+###  http://www.isibang.ac.in/ns/codo#Recovered
+:Recovered rdf:type owl:NamedIndividual ,
+                    :Status .
+
+
 ###  http://www.isibang.ac.in/ns/codo#RunnyNose
 :RunnyNose rdf:type owl:NamedIndividual ,
                     <http://purl.obolibrary.org/obo/SYMP_0000462> ;
@@ -1775,15 +1764,6 @@ schema:State rdf:type owl:Class ;
                  "Upper Respiratory Tract Infection"@en .
 
 
-###  http://www.isibang.ac.in/ns/codo#covid-19
-:covid-19 rdf:type owl:NamedIndividual ,
-                   :COVID-19 ;
-          :location :BengaluruUrban ,
-                    :India ,
-                    :Karnataka ,
-                    :UP .
-
-
 ###  http://www.isibang.ac.in/ns/codo#karntStateStat000001
 :karntStateStat000001 rdf:type owl:NamedIndividual ,
                                :StateWiseStatistics ;
@@ -1798,6 +1778,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000001
 :p000001 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hasBrother :p000005 ;
          :hasDaughter :p000007 ;
@@ -1813,6 +1794,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000002
 :p000002 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hasDiagnosis :P000002Diagnosis ;
          :hasSymptom :Pneumonia ;
@@ -1823,6 +1805,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000003
 :p000003 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hasDiagnosis :P000003Diagnosis ;
          :hasSymptom :SeverePneumonia ;
@@ -1836,6 +1819,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000004
 :p000004 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hasDaughter :p000007 ;
          :hasSon :p000006 ;
@@ -1845,6 +1829,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000005
 :p000005 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
          :hasID "T5"^^xsd:string .
@@ -1852,6 +1837,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000006
 :p000006 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
          :hasID "T6"^^xsd:string .
@@ -1859,6 +1845,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000007
 :p000007 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
          :hasID "T7"^^xsd:string .
@@ -1866,6 +1853,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000008
 :p000008 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   :Woman ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
@@ -1874,6 +1862,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000009
 :p000009 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "true"^^xsd:boolean ;
          :hasID "T9"^^xsd:string .
@@ -1881,6 +1870,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000010
 :p000010 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
          :hasID "T10"^^xsd:string .
@@ -1888,6 +1878,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000011
 :p000011 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "true"^^xsd:boolean ;
          :hasID "T11"^^xsd:string .
@@ -1895,6 +1886,7 @@ schema:State rdf:type owl:Class ;
 
 ###  http://www.isibang.ac.in/ns/codo#p000012
 :p000012 rdf:type owl:NamedIndividual ,
+                  :TestData ,
                   foaf:Person ;
          :hadCovidTest "false"^^xsd:boolean ;
          :hasID "T12"^^xsd:string .
@@ -1910,6 +1902,17 @@ schema:State rdf:type owl:Class ;
 ###  http://www.isibang.ac.in/ns/codo#upStatState000002
 :upStatState000002 rdf:type owl:NamedIndividual ,
                             :StateWiseStatistics .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+:COVID-19 rdfs:comment "A disease caused by severe acute respiratory syndrome coronavirus 2."@en ;
+          rdfs:label "Disease caused by severe acute respiratory syndrome coronavirus 2"@en ;
+          rdfs:comment "SCTID: 840539006"@en ;
+          rdfs:label "Disease caused by 2019-nCoV"@en ,
+                     "Disease caused by 2019 novel coronavirus"@en .
 
 
 #################################################################
@@ -1935,7 +1938,7 @@ schema:State rdf:type owl:Class ;
 :s rdf:type swrl:Variable .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Uncle Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -1964,7 +1967,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Aunt Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -1993,7 +1996,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Niece Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -2022,7 +2025,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Mild and Very Mild Covid19 Diagnostic Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -2057,7 +2060,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Moderate Covid19 Diagnostic Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -2111,7 +2114,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Nephew Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
@@ -2140,7 +2143,7 @@ schema:State rdf:type owl:Class ;
  ] .
 
 [ swrla:isRuleEnabled "true"^^xsd:boolean ;
-   rdfs:comment ""^^xsd:string ;
+   rdfs:comment "" ;
    rdfs:label "Severe Covid19 Diagnostic Rule"^^xsd:string ;
    rdf:type swrl:Imp ;
    swrl:body [ rdf:type swrl:AtomList ;
