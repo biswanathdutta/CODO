@@ -13,19 +13,7 @@ This network data may help in analysing the behavior of the disease, possible ro
 
 (3) The data published following the proposed Knowledge Graph (KG) will also help the policymakers, for example, in understanding the state of the infrastructure, failure study, in resource allocation for a similar kind of pandemic in the future. 
 
-## Contacts    
-**Biswanath Dutta (Indian Statistical Institute)** 
-
-(@biswanathdutta) 
- <dutta2005@gmail.com>, 
- <bisu@drtc.isibang.ac.in>  
-
-
-**Michael DeBellis** 
- <mdebellissf@gmail.com> 
-
-
-##Changes 
+#Changes 
 Changes from CODO V1.0 to CODO V1.2 
 Date: 16 July 2020 
 
@@ -48,3 +36,17 @@ hasID(caseID)
 [Removed:] 
 Class: COVID-19 
 Data property: patientStatus, patientID 
+
+
+## Contacts    
+**Biswanath Dutta (Indian Statistical Institute)** 
+
+(@biswanathdutta) 
+ <dutta2005@gmail.com>, 
+ <bisu@drtc.isibang.ac.in>  
+
+
+**Michael DeBellis** 
+ <mdebellissf@gmail.com> 
+
+
