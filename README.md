@@ -18,23 +18,18 @@ Changes from CODO V1.0 to CODO V1.2
 Date: 16 July 2020 
 
 **[Added class:]** 
-UrgentlyNeedsCovidTest 
-City, Status 
+UrgentlyNeedsCovidTest, City, Status 
 
 **[Added property:]** 
 Object property: 
-contractedVirusFrom, passesVriusTo  
-hasCloseRelationship, hasTravelCompanion 
-city, country, district, state 
-status 
-admittedPatient [inverse property for "admittedIn"] 
+contractedVirusFrom, passesVriusTo, hasCloseRelationship, hasTravelCompanion, city, country, district, state, status,  
+admittedPatient [an inverse property for "admittedIn"] 
 
 Data property: 
-hasCausedAnySecondaryInfections 
-hasID(caseID) 
+hasCausedAnySecondaryInfections, hasID(caseID) 
 
 **[Removed:]** 
-Class: COVID-19 
+Class: COVID-19, 
 Data property: patientStatus, patientID 
 
 
