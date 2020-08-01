@@ -21,16 +21,16 @@ Date: 16 July 2020
 UrgentlyNeedsCovidTest, City, Status 
 
 **[Added property:]** 
-Object property: 
+**Object property:** 
 contractedVirusFrom, passesVriusTo, hasCloseRelationship, hasTravelCompanion, city, country, district, state, status,  
 admittedPatient [an inverse property for "admittedIn"] 
 
-Data property: 
+**Data property:** 
 hasCausedAnySecondaryInfections, hasID(caseID) 
 
 **[Removed:]** 
-Class: COVID-19, 
-Data property: patientStatus, patientID 
+**Class:** COVID-19, 
+**Data property:** patientStatus, patientID 
 
 
 ## Contacts    
