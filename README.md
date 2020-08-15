@@ -13,24 +13,8 @@ This network data may help in analysing the behavior of the disease, possible ro
 
 (3) The data published following the proposed Knowledge Graph (KG) will also help the policymakers, for example, in understanding the state of the infrastructure, failure study, in resource allocation for a similar kind of pandemic in the future. 
 
-## Changes: 
-Changes from CODO V1.0 to CODO V1.2 
-Date: 16 July 2020 
 
-**[Added class:]** 
-UrgentlyNeedsCovidTest, City, Status 
-
-**[Added property:]** 
-**Object property:** 
-contractedVirusFrom, passesVriusTo, hasCloseRelationship, hasTravelCompanion, city, country, district, state, status,  
-admittedPatient [an inverse property for "admittedIn"] 
-
-**Data property:** 
-hasCausedAnySecondaryInfections, hasID(caseID) 
-
-**[Removed:]** 
-**Class:** COVID-19, 
-**Data property:** patientStatus, patientID 
+https://w3id.org/codo redirects to https://isibang.ac.in/ns/codo/index.html
 
 
 ## Contacts    
