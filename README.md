@@ -1,4 +1,4 @@
-# CODO: COviD-19 Ontology for Cases and Patient information 
+# CODO: COviD-19 Ontology for collection and analysis of data 
 
 An Ontological Framework for Representation and annotation of COVID-19 Cases and Patient Information 
 
